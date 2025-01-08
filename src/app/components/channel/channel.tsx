@@ -1,38 +1,30 @@
-import chromium from "@sparticuz/chromium-min";
-import puppeteer from "puppeteer-core";
-const chromiumPack = "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+import formatUsername from "../handlers";
+
 export default async function getSubshandler(username: string) {
-  function formatUsername(username: string) {
-    return username
-      .toLowerCase() // Convert to lowercase
-      .replace(/\s+/g, "_") // Replace spaces with underscores
-      .replace(/[^a-z0-9_]/g, ""); // Remove non-alphanumeric characters except underscores
-  }
   const newUsername = formatUsername(username);
   try {
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      // See https://www.npmjs.com/package/@sparticuz/chromium#running-locally--headlessheadful-mode for local executable path 
-      executablePath: await chromium.executablePath(chromiumPack),
-      headless: true,
-    });
-
-    const page = await browser.newPage();
-
-    await page.goto(`https://www.youtube.com/@${newUsername}`);
-    const subscribersData = await page.evaluate(() => {
-      // Find the span element that contains "subscribers"
-      const spanElement = Array.from(document.querySelectorAll("span")).find(
-        (el) => el.textContent!.includes("subscribers")
-      );
-
-      return spanElement ? spanElement.textContent!.trim() : null;
-    });
-    await browser.close();
-    return subscribersData
-      ? `${newUsername}: ${subscribersData}`
-      : "Channel not found!";
+    const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${newUsername}&key=${process.env.YOUTUBE_API_KEY}`;
+    const searchResponse = await fetch(searchUrl);
+    const searchData = await searchResponse.json();
+    if (searchData.items && searchData.items.length > 0) {
+      const channelId = searchData.items[0].snippet.channelId;
+      const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,contentDetails,statistics&id=${channelId}&key=${process.env.YOUTUBE_API_KEY}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.items && data.items.length > 0) {
+        const channel = data.items[0];
+        const { snippet, statistics } = channel;
+        console.log("Channel Title:", snippet.title);
+        console.log("Channel Description:", snippet.description);
+        console.log("Subscriber Count:", statistics.subscriberCount);
+        console.log("View Count:", statistics.viewCount);
+        console.log("Video Count:", statistics.videoCount);
+        return statistics.subscriberCount;
+      }
+    } else {
+      console.log("Channel not found or API error.");
+    }
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }

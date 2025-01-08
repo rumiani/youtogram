@@ -13,6 +13,7 @@
     "@sparticuz/chromium-min": "^131.0.1",
     "@types/jsdom": "^21.1.7",
     "browserless": "^10.6.3",
+    "cheerio": "^1.0.0",
     "grammy": "^1.34.0",
     "jsdom": "^25.0.1",
     "next": "15.1.3",

@@ -19,6 +19,8 @@ bot.on("message:text", async (ctx) => {
   console.log(ctx.message.text);
   
   const result = await getSubshandler(ctx.message.text);
+  console.log(result);
+  
   await ctx.reply(result!);
 });
 
