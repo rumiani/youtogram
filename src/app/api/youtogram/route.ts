@@ -16,6 +16,8 @@ bot.command("start", (ctx) => {
   ctx.reply(`Hi ${ctx.from?.first_name},\nPlease send me a Youtube username.`);
 });
 bot.on("message:text", async (ctx) => {
+  console.log(ctx.message.text);
+  
   const result = await getSubshandler(ctx.message.text);
   await ctx.reply(result!);
 });
