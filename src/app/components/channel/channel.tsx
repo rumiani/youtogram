@@ -1,7 +1,7 @@
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 
-const chromiumPack = "./public/assets/chromium-v126.0.0-pack.tar"
+const chromiumPack = "https://github.com/rumiani/youtogram/blob/master/public/assets/chromium-v126.0.0-pack.tar"
 export default async function getSubshandler(username: string) {
   function formatUsername(username: string) {
     return username
