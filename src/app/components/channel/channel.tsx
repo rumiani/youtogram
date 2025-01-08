@@ -13,16 +13,10 @@ export default async function getSubshandler(username: string) {
       const data = await response.json();
       if (data.items && data.items.length > 0) {
         const channel = data.items[0];
-        const { snippet, statistics } = channel;
-        console.log("Channel Title:", snippet.title);
-        console.log("Channel Description:", snippet.description);
-        console.log("Subscriber Count:", statistics.subscriberCount);
-        console.log("View Count:", statistics.viewCount);
-        console.log("Video Count:", statistics.videoCount);
-        return statistics.subscriberCount;
+        return `${username}: ${channel.statistics.subscriberCount} subscribers`;
       }
     } else {
-      console.log("Channel not found or API error.");
+      return "Channel not found or API error.";
     }
   } catch (error) {
     console.log(error);
