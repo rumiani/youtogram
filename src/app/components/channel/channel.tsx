@@ -13,7 +13,7 @@ export default async function getSubshandler(username: string) {
       const data = await response.json();
       if (data.items && data.items.length > 0) {
         const channel = data.items[0];
-        return `${username}: ${channel.statistics.subscriberCount} subscribers`;
+        return `${newUsername}: ${channel.statistics.subscriberCount} subscribers`;
       }
     } else {
       return "Channel not found or API error.";
