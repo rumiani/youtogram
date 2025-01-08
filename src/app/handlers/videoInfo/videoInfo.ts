@@ -1,3 +1,4 @@
+import { formatNumHandler } from "../general/formatNumbers";
 import extractVideoIdHandler from "./extractVideoId";
 
 export default async function videoInfoHandler(link: string) {
@@ -11,9 +12,15 @@ export default async function videoInfoHandler(link: string) {
     if (videoData.items && videoData.items.length > 0) {
       const video = videoData.items[0];
       console.log(video);
-      
+
       const { snippet, statistics } = video;
-      return `Video Title: ${snippet.title}\nViews: ${statistics.viewCount}\nLikes: ${statistics.likeCount}\nComments: ${statistics.commentCount}`;
+      const channelLink = `[Channel Link](https://www.youtube.com/channel/${snippet.channelId})`;
+      return `${channelLink}
+      \nVideo Title: ${snippet.title}\nViews: ${formatNumHandler(
+        statistics.viewCount
+      )}\nLikes: ${formatNumHandler(
+        statistics.likeCount
+      )}\nComments: ${formatNumHandler(statistics.commentCount)}`;
     } else {
       return "Video not found.";
     }

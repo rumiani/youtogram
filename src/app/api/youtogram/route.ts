@@ -17,7 +17,7 @@ bot.command("start", (ctx) => {
 });
 bot.on("message:text", async (ctx) => {
   const result = await inputTypeHandler(ctx.message.text);
-  await ctx.reply(result!);
+  await ctx.reply(result!,{ parse_mode: "Markdown" });
 });
 
 export const POST = webhookCallback(bot, "std/http");

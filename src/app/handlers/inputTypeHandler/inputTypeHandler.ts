@@ -1,6 +1,7 @@
 import channelInfoHandler from "../channel/channel";
 import extractChannelIdHandler from "../channel/extractChannelId ";
 import dollarHandler from "../dollar/dollar";
+import formatUsername from "../handlers";
 import videoInfoHandler from "../videoInfo/videoInfo";
 
 export default async function inputTypeHandler(input: string) {
@@ -16,7 +17,8 @@ export default async function inputTypeHandler(input: string) {
       const dollarPrice = await dollarHandler();
       return `Dollar price is: ${dollarPrice} Rial`;
     } else {
-      return channelInfoHandler(input);
+      const username = formatUsername(input);
+      return channelInfoHandler(username);
     }
   }
   if (isVideo) {

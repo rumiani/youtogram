@@ -1,5 +1,6 @@
 import _ from "lodash";
 import usernameToId from "./usernameToId";
+import { formatNumHandler } from "../general/formatNumbers";
 export default async function channelInfoHandler(username: string | null) {
   if (!username) return "Channel not found or API error.";
   try {
@@ -11,8 +12,8 @@ export default async function channelInfoHandler(username: string | null) {
       const channel = data.items[0];
       return `
         ${_.capitalize(username)}\nViews: ${
-        channel.statistics.viewCount
-      }\nSubscribers ${channel.statistics.subscriberCount}`;
+          formatNumHandler(channel.statistics.viewCount)
+      }\nSubscribers: ${formatNumHandler(channel.statistics.subscriberCount)}`;
     } else {
       return "Channel not found or API error.";
     }
