@@ -1,6 +1,7 @@
+import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
 
+const chromiumPack = "./public/assets/chromium-v126.0.0-pack.tar"
 export default async function getSubshandler(username: string) {
   function formatUsername(username: string) {
     return username
@@ -11,10 +12,12 @@ export default async function getSubshandler(username: string) {
   const newUsername = formatUsername(username);
   try {
     const browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath(), // Use the Chromium path from @sparticuz/chromium
-      headless: true, // Make sure it's in headless mode for serverless
-      args: chromium.args, // Optional: Pass arguments optimized for serverless environments
+      args: chromium.args,
+      // See https://www.npmjs.com/package/@sparticuz/chromium#running-locally--headlessheadful-mode for local executable path 
+      executablePath: await chromium.executablePath(chromiumPack),
+      headless: true,
     });
+
     const page = await browser.newPage();
 
     await page.goto(`https://www.youtube.com/@${newUsername}`);
