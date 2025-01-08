@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 export const fetchCache = "force-no-store";
 
-import getSubshandler from "@/app/components/channel/channel";
+import inputTypeHandler from "@/app/handlers/inputTypeHandler/inputTypeHandler";
 import { Bot, webhookCallback } from "grammy";
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -16,7 +16,7 @@ bot.command("start", (ctx) => {
   ctx.reply(`Hi ${ctx.from?.first_name},\nPlease send me a Youtube username.`);
 });
 bot.on("message:text", async (ctx) => {
-  const result = await getSubshandler(ctx.message.text);
+  const result = await inputTypeHandler(ctx.message.text);
   await ctx.reply(result!);
 });
 
