@@ -10,6 +10,7 @@
     "ngrok": "ngrok http 3000"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^4.15.8",
     "@sparticuz/chromium-min": "^131.0.1",
     "@types/jsdom": "^21.1.7",
     "browserless": "^10.6.3",
@@ -21,7 +22,8 @@
     "puppeteer": "^23.10.4",
     "puppeteer-core": "^23.10.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

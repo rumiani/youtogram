@@ -11,8 +11,6 @@ export default async function videoInfoHandler(link: string) {
     const videoData = await videoResponse.json();
     if (videoData.items && videoData.items.length > 0) {
       const video = videoData.items[0];
-      console.log(video);
-
       const { snippet, statistics } = video;
       const channelLink = `[Channel Link](https://www.youtube.com/channel/${snippet.channelId})`;
       return `${channelLink}

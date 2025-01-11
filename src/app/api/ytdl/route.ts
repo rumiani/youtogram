@@ -1,0 +1,32 @@
+// import ytdl from "ytdl-core";
+import ytdl from "@distube/ytdl-core";
+
+import { NextApiResponse } from "next";
+import fs from "fs";
+
+export async function GET(req: Request, res: NextApiResponse) {
+  const videoUrl = "https://www.youtube.com/watch?v=MPL0n5Pd8Js";
+
+  try {
+    console.log(videoUrl);
+    // const info = await ytdl.getInfo(videoUrl);
+    const info = await ytdl.getBasicInfo(videoUrl);
+    
+    console.log(info.formats);
+    const writeStream = fs.createWriteStream("./downloaded_video.mp4");
+    ytdl(videoUrl, {
+      format: ytdl.chooseFormat(info.formats, { quality: "highest" }),
+    }).pipe(writeStream);
+
+    writeStream.on("finish", () => {
+      console.log("Download completed successfully!");
+    });
+    writeStream.on("error", (err) => {
+      console.error("Error during download:", err);
+    });
+    return Response.json("done");
+  } catch (error) {
+    console.error("Error downloading video:", error);
+    return Response.json("Failed to download video", {});
+  }
+}
