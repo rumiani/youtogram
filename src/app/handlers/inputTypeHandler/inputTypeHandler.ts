@@ -1,34 +1,28 @@
 // import ytdl from "ytdl-core";
-import channelInfoHandler from "../channel/channel";
-import extractChannelIdHandler from "../channel/extractChannelId ";
+import channelInfoHandler from "../channelHandler/channelInfoHandler";
+import extractChannelIdHandler from "../channelHandler/extractChannelId ";
 import dollarHandler from "../dollar/dollar";
-import formatUsername from "../handlers";
-import videoInfoHandler from "../videoInfo/videoInfo";
+import linkDetector from "../linkDetector/linkDetector";
+import videoInfoHandler from "../videoHandler/videoInfoHandler";
+import commandHandler from "./commandHandler/commandHandler";
 
-export default async function inputTypeHandler(input: string) {
-  // const regex = /^[a-zA-Z0-9]+ [a-zA-Z0-9]+$/;
-  // const isDownloadReq = regex.test(input);
-  const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-  const isUrl = urlRegex.test(input);
-  const channelRegex = /(?:youtube\.com\/@(?!videos\/)([^\/\n\s?=]+))/;
-  const isChannel = channelRegex.test(input);
-  const videoRegex =
-    /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  const isVideo = videoRegex.test(input);
+export default async function inputTypeHandler(messageText: string) {
+  if (messageText.startsWith("/")) return commandHandler(messageText);
+  const { isUrl, isChannel, isVideo } = linkDetector(messageText);
   if (!isUrl) {
-    if (input.toLowerCase() === "دلار" || input.toLowerCase() === "dollar") {
+    if (
+      messageText.toLowerCase() === "دلار" ||
+      messageText.toLowerCase() === "dollar"
+    ) {
       const dollarPrice = await dollarHandler();
       return `Dollar price is: ${dollarPrice} Rials`;
-    } else {
-      const username = formatUsername(input);
-      return channelInfoHandler(username);
     }
   }
   if (isVideo) {
-    return videoInfoHandler(input);
+    return videoInfoHandler(["/info", messageText]);
   }
   if (isChannel) {
-    const channelId = extractChannelIdHandler(input);
+    const channelId = extractChannelIdHandler(messageText);
     return channelInfoHandler(channelId);
   }
   // if (isDownloadReq) {

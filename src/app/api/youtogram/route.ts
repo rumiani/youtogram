@@ -17,12 +17,15 @@ bot.command("start", (ctx) => {
 
 bot.on("message:text", async (ctx) => {
   const result = await inputTypeHandler(ctx.message.text);
-  await ctx.reply(result!, { parse_mode: "Markdown" });
+  if(result){
+    await ctx.reply(result!, { parse_mode: "HTML" });
+  }else{
+    ctx.reply("Bad request, click /help", { parse_mode: "HTML" });
+  }
 });
 
 export const POST = async (req: Request) => {
   // const isCronJob = req.headers.get("X-Request-Source") === "cronjob";
-  console.log(req.headers);
   const headers = req.headers
   const userAgent = headers.get('user-agent');
   const isCronJob = userAgent && userAgent.includes('cron-job.org');
