@@ -12,7 +12,7 @@ if (!token)
 const bot = new Bot(token);
 
 bot.command("start", (ctx) => {
-  ctx.reply(`Hi ${ctx.from?.first_name},\nPlease send me a Youtube username.`);
+  ctx.reply(`Hi ${ctx.from?.first_name},\nPlease send me a Youtube link.\n /help`);
 });
 
 bot.on("message:text", async (ctx) => {
