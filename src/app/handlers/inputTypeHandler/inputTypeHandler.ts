@@ -3,7 +3,7 @@ import channelInfoHandler from "../channelHandler/channelInfoHandler";
 import extractChannelIdHandler from "../channelHandler/extractChannelId ";
 import dollarHandler from "../dollar/dollar";
 import linkDetector from "../linkDetector/linkDetector";
-import videoInfoHandler from "../videoHandler/videoInfoHandler";
+// import videoDl from "../videoHandler/videoDl";
 import commandHandler from "./commandHandler/commandHandler";
 
 export default async function inputTypeHandler(messageText: string) {
@@ -19,7 +19,7 @@ export default async function inputTypeHandler(messageText: string) {
     }
   }
   if (isVideo) {
-    return videoInfoHandler(["/info", messageText]);
+    // return videoDl();
   }
   if (isChannel) {
     const channelId = extractChannelIdHandler(messageText);
