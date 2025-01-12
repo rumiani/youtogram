@@ -20,9 +20,9 @@ export default async function channelVsReply(commandArray: string[]) {
       const channel2Subs = channelData2.items[0].statistics.subscriberCount;
       const subDiff = Math.abs(channel1Subs - channel2Subs - 1000);
       return `
-        The Subscribers gap between ${_.capitalize(username1)} and ${_.capitalize(
+        The subscribers gap between <strong>${_.capitalize(username1)}</strong> and <strong>${_.capitalize(
         username2
-      )} is:\n ${formatNumHandler(subDiff)}`;
+      )}</strong> is:\n ${formatNumHandler(subDiff)}`;
     } else {
       return "Channel not found or API error.";
     }
