@@ -2,7 +2,19 @@ import channelVsReply from "./commandHandlers/channelVsReply";
 import channelInfoReply from "./commandHandlers/channelInfoReply";
 
 export default async function commandHandler(messageText: string) {
-  type CommandHandler = (args: string[]) => string | Promise<string>;
+  type CommandHandler = (
+    args: string[]
+  ) =>
+    | string
+    | Promise<
+        | string
+        | {
+            text: string;
+            reply_markup: {
+              inline_keyboard: { text: string; callback_data: string }[][];
+            };
+          }
+      >;
   const commandReplies: Record<string, CommandHandler> = {
     "/info": (args: string[]) => channelInfoReply(args),
     "/vs": (args: string[]) => channelVsReply(args),
@@ -11,7 +23,7 @@ export default async function commandHandler(messageText: string) {
     "/help": () =>
       `Available commands:\n1- Compare two channels with usernames:\n\/vs channel1username channel2username\n2- Check out channel info:\n/info channelUsername`,
   };
-  const commandArray = messageText.split(" ");
+  const commandArray = messageText.split(" ").filter((item) => item.trim() !== "");
   const handler = commandReplies[commandArray[0]];
   if (handler) {
     return await handler(commandArray);

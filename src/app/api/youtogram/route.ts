@@ -12,25 +12,24 @@ if (!token)
 const bot = new Bot(token);
 
 bot.command("start", (ctx) => {
-  ctx.reply(`Hi ${ctx.from?.first_name},\nPlease send me a Youtube link.\n /help`);
+  ctx.reply(`Hi ${ctx.from?.first_name},\nPlease send me a Youtube username.`);
 });
 
 bot.on("message:text", async (ctx) => {
   const result = await inputTypeHandler(ctx.message.text);
-  if(result){
-    await ctx.reply(result!, { parse_mode: "HTML" });
-  }else{
+  if (result) {
+    await ctx.reply(result!);
+  } else {
     ctx.reply("Bad request, click /help", { parse_mode: "HTML" });
   }
 });
 
 export const POST = async (req: Request) => {
   // const isCronJob = req.headers.get("X-Request-Source") === "cronjob";
-  const headers = req.headers
-  const userAgent = headers.get('user-agent');
-  const isCronJob = userAgent && userAgent.includes('cron-job.org');
+  const headers = req.headers;
+  const userAgent = headers.get("user-agent");
+  const isCronJob = userAgent && userAgent.includes("cron-job.org");
   try {
-    
     if (isCronJob) {
       // Handle the cronjob request logic here
       console.log("Received request from cronjob.");
@@ -40,7 +39,6 @@ export const POST = async (req: Request) => {
       return webhookCallback(bot, "std/http")(req);
     }
   } catch (error) {
-    console.log('Error: ',error);
-    
+    console.log("Error: ", error);
   }
 };
