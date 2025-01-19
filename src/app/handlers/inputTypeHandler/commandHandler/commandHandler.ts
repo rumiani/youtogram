@@ -21,7 +21,8 @@ export default async function commandHandler(messageText: string) {
     "/top": () => "Fetching the top YouTube channels...",
     "/list": () => "Here are your favorite YouTube channels: ...",
     "/help": () =>
-      `Available commands:\n1- Compare two channels with usernames:\n\/vs channel1username channel2username\n2- Check out channel info:\n/info channelUsername`,
+      `Available commands:\n1- Compare two channels with usernames:\n\/vs channel1username channel2username\n2- Check out channel info:\n/info channelUsername \n 3- Currencies:\n/Currencies`,
+    "/currencies":() => "Currencies List:\n/USD  /EUR  /GBP  /TRY  /JPY  /AED  /USDT  /BTC"
   };
   const commandArray = messageText.split(" ").filter((item) => item.trim() !== "");
   const handler = commandReplies[commandArray[0]];
