@@ -2,6 +2,8 @@ import * as cheerio from "cheerio";
 import { currencyTypes } from "./isCurrency";
 
 export default async function currencyRateHandler(c: currencyTypes) {
+  console.log(c);
+  
   const res = await fetch(
     `https://fa.navasan.net/dayRates.php?item=${c.urlName}`
   );

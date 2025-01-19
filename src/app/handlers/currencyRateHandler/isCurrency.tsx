@@ -91,6 +91,6 @@ export const isCurrency = (input: string) => {
       currency.persianName1.toLowerCase() === input ||
       currency.command.toLowerCase() === input ||
       currency.code.toLowerCase() === input
-  );
+  );  
   return currency ? currency : null;
 };

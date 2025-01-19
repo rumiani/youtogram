@@ -8,12 +8,11 @@ import linkDetector from "../linkDetector/linkDetector";
 import commandHandler from "./commandHandler/commandHandler";
 
 export default async function inputTypeHandler(messageText: string) {
-  const cleanedText = messageText.trim().toLowerCase();
+  let cleanedText = messageText.trim().toLowerCase();
 
   if (cleanedText.includes("@youtogram_bot")) {
-    return (
-      cleanedText === "@youtogram_bot" && "Hi, how may I help you?\n /help"
-    );
+    cleanedText = cleanedText.replace("@youtogram_bot", "");
+    if (cleanedText === "") return "Hi, how may I help you?\n /help";
   }
 
   const currency = isCurrency(cleanedText);
